@@ -85,6 +85,14 @@ class PathMeta
         $this->httpMethod = strtoupper($httpMethod);
     }
 
+    /**
+     *
+     * 根据 resName 组装资源类的全路径
+     *  /me/orders =>App\Api\Resource\Me\Order
+     *  /me/orders =>App\Api\Resource\Me\MeOrder
+     * @param $namespace
+     * @return string
+     */
     private function getResClass($namespace)
     {
         $qualifiedResName = $this->convertToSingular($this->resNames[0]).'\\';

@@ -3,11 +3,18 @@
 namespace App\Controller;
 
 use App\Api\PathMeta;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+
+/**
+ * Class EndPointController
+ * @package App\Controller
+ * @Route("/api")
+ */
 class EndPointController extends Controller
 {
     /**
@@ -27,12 +34,16 @@ class EndPointController extends Controller
      */
     public function index(Request $request)
     {
-        $pathMata = new PathMeta();
 
-        $pathMata->setHttpMethod($request->getMethod());
-        $this->parsePathInfo($pathMata, $request->getPathInfo());
+        $response = $this->get('api.kernel')->handle($request);
 
-        var_dump($pathMata->getResourceClassName(), $pathMata->getSlugs(), $pathMata->getResMethod());
+        return new JsonResponse($response);
+
+    }
+
+
+    private function view()
+    {
         $number = mt_rand(0, 100);
 
         return $this->render(
@@ -43,34 +54,5 @@ class EndPointController extends Controller
         );
     }
 
-    private function parsePathInfo($pathMeta, $pathInfo)
-    {
-        $pathExplode = explode('/',  $pathInfo);
-        //默认第一个是资源名称
-        $nextIsResName = 1;
-        foreach ($pathExplode as $part) {
-            if ($part == '') {
-                continue;
-            }
-
-            if ($part == 'me') {
-                $pathMeta->addResName($part);
-                continue;
-            }
-
-            if ($part == 'app') {
-                $pathMeta->addResName($part);
-                continue;
-            }
-
-            if ($nextIsResName) {
-                $pathMeta->addResName($part);
-                $nextIsResName = 0;
-            } else {
-                $pathMeta->addSlug($part);
-                $nextIsResName = 1;
-            }
-        }
-    }
 
 }

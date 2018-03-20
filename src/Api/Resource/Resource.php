@@ -12,4 +12,7 @@ namespace App\Api\Resource;
 class Resource
 {
 
+    public function __construct()
+    {
+    }
 }
