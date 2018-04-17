@@ -1,4 +1,12 @@
 parameters:
     db:
-      username: 2
-      password: 3
+        username: 2
+        password: 3
+
+    oauth_clients:
+        weixin:
+            name: 微信网页登录接口
+            class:  App\OAuth\Client\WeixinWebOAuthClient
+            key:    wx3177719cde4ebeca
+            secret: 0a056a510c813febba41113533338b3e
+            apply_url:  https://open.weixin.qq.com/cgi-bin/frame?t=home/web_tmpl&lang=zh_CN

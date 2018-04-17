@@ -50,6 +50,7 @@ class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface
     {
 
         if (!$userProvider instanceof ApiKeyUserProvider) {
+
             throw new \InvalidArgumentException(
                 sprintf(
                     'The user provider must be an instance of ApiKeyUserProvider (%s was given).',
@@ -62,7 +63,6 @@ class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface
         $username = $userProvider->getUsernameForApiKey($apiKey);
 
         if (!$username) {
-            var_dump(   $apiKey );
             // CAUTION: this message will be returned to the client
             // (so don't put any un-trusted messages / error strings here)
             throw new CustomUserMessageAuthenticationException(

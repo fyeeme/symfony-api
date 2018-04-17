@@ -28,3 +28,7 @@ services:
     api.kernel:
         class: App\Api\Kernel
         public: true
+
+    oauth.client:
+        class: App\OAuth\OAuthClientFactory
+        public: true
