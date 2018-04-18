@@ -1,4 +1,7 @@
 {
+    "ageglow/base-framework": {
+        "version": "v0.0.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -76,6 +79,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.0"
+    },
+    "pimple/pimple": {
+        "version": "v3.2.3"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -163,6 +169,9 @@
     },
     "symfony/inflector": {
         "version": "v4.0.6"
+    },
+    "symfony/lock": {
+        "version": "v4.0.8"
     },
     "symfony/lts": {
         "version": "4-dev"
