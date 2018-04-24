@@ -9,10 +9,19 @@
 namespace App\Api\Resource;
 
 
+use Codeages\Biz\Framework\Context\Biz;
+use Symfony\Component\DependencyInjection\Container;
+
 class Resource
 {
 
-    public function __construct()
+    protected $biz;
+
+    private $container;
+
+    public function __construct(Container $container,  Biz $biz)
     {
+        $this->container = $container;
+        $this->biz = $biz;
     }
 }

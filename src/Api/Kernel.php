@@ -9,10 +9,15 @@
 namespace App\Api;
 
 
+use App\Api\Exception\ErrorCode;
+use App\Api\Resource\Job\Job;
+use App\Common\ExceptionPrintingToolkit;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class Kernel
 {
@@ -23,6 +28,8 @@ class Kernel
 
     private $logger;
 
+    private $biz;
+
     public function __construct(ContainerInterface $container, LoggerInterface $logger)
     {
         $this->container = $container;
@@ -31,10 +38,15 @@ class Kernel
             'test container ',
             $this->container->getParameter('db')
         );
+        $this->biz = $this->container->get('biz');
+
     }
 
     public function handle(Request $request)
     {
+        $this->parseRequestBody($request);
+
+        //TODO auth control
 
         return $this->handleRequest($request);
     }
@@ -49,37 +61,16 @@ class Kernel
         $pathParser = new PathParser();
 
         $pathMeta = $pathParser->parse($request);
-        $this->logger->debug(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-        $this->logger->error(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-
-        $this->logger->emergency(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-
-        $this->logger->notice(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-
-        $this->logger->warning(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-
-        $this->logger->critical(
-            '$pathMeta',
-            [$pathMeta->getResourceClassName(), $pathMeta->getSlugs(), $pathMeta->getResMethod()]
-        );
-
         return $this->invoke($request, $pathMeta);
 
+    }
+
+    private function parseRequestBody(Request $request)
+    {
+        if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+            $data = json_decode($request->getContent(), true);
+            $request->request->replace(is_array($data) ? $data : array());
+        }
     }
 
     private function invoke(Request $request, PathMeta $pathMeta)
@@ -88,12 +79,50 @@ class Kernel
         $method = $pathMeta->getResMethod();
         $resource = $pathMeta->getResourceClassName();
 
-        if (!is_callable([new $resource(), $method])) {
-            throw  new  BadRequestHttpException(sprintf(' method %s() not found in class %s ', $method, $resource));
+        $resource = new $resource($this->container, $this->container->get('biz'));
+
+        if (!is_callable([$resource, $method])) {
+            throw  new  BadRequestHttpException(sprintf(' method %s() not found in class %s ', $method, get_class($resource)));
         }
+
         $params = array_merge([$request, $pathMeta->getSlugs()]);
 
-        return call_user_func_array([$resource, $method], $params);
+        try{
+            $response =  call_user_func_array([$resource, $method], $params);
+            $result[] = array(
+                'code' => 200,
+                'body' => $response,
+            );
+        }catch (\Exception $e){
+            list($error, $httpCode) = $this->getErrorAndHttpCodeFromException($e, $this->biz['isDebug']);
+            $result[] = array(
+                'code' => $httpCode,
+                'body' => array('error' => $error),
+            );
+        }
+
+        return $result;
+    }
+
+
+    private  function getErrorAndHttpCodeFromException(\Exception $exception, $isDebug)
+    {
+        $error = array();
+        if ($exception instanceof HttpExceptionInterface) {
+            $error['message'] = $exception->getMessage();
+            $error['code'] = $exception->getCode();
+            $httpCode = $exception->getStatusCode();
+        } else{
+            $error['message'] = 'Internal server error';
+            $error['code'] = $exception->getCode() ? : ErrorCode::INTERNAL_SERVER_ERROR;
+            $httpCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+        }
+
+        if ($isDebug) {
+            $error['trace'] = ExceptionPrintingToolkit::printTraceAsArray($exception);
+        }
+
+        return array($error, $httpCode);
     }
 
 

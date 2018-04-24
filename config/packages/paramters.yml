@@ -2,7 +2,6 @@ parameters:
     db:
         username: 2
         password: 3
-
     oauth_clients:
         weixin:
             name: 微信网页登录接口
@@ -10,3 +9,19 @@ parameters:
             key:    wx3177719cde4ebeca
             secret: 0a056a510c813febba41113533338b3e
             apply_url:  https://open.weixin.qq.com/cgi-bin/frame?t=home/web_tmpl&lang=zh_CN
+    biz_config:
+        debug: "%kernel.debug%"
+        db.options: "%biz_db_options%"
+        root_directory: "%kernel.root_dir%/../"
+        cache_directory: "%kernel.cache_dir%"
+        log_directory: "%kernel.logs_dir%"
+        kernel.root_dir: "%kernel.root_dir%"
+        theme.directory: "%kernel.root_dir%/../web/themes"
+    biz_db_options:
+        # dbname: "%database_name%"
+        # user: "%database_user%"
+        # password: "%database_password%"
+        # host: "%database_host%"
+        # port: "%database_port%"
+        driver: pdo_mysql
+        charset: UTF8

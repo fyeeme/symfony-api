@@ -8,7 +8,6 @@
 
 namespace App\Controller;
 
-
 use App\OAuth\Client\OAuthClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +28,8 @@ class UserController extends Controller
         $oauthClient = $this->OAuthClient('weixin');
 
         $url = $oauthClient->getAuthorizeUrl($callbackUrl);
-
-         return $this->redirect($url);
+       
+        return $this->redirect($url);
     }
 
     /**

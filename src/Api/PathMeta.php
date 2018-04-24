@@ -105,7 +105,7 @@ class PathMeta
             $qualifiedResName .= $this->convertToSingular($resName);
         }
 
-        return $namespace.'\\Resource\\'.$qualifiedResName;
+        return   $namespace.'\\Resource\\'.$qualifiedResName;
     }
 
     private function convertToSingular($string)
