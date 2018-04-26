@@ -84,5 +84,6 @@ class Kernel extends BaseKernel
     {
         $biz = $this->getContainer()->get('biz');
         $biz->register(new DoctrineServiceProvider());
+        $biz['autoload.aliases'] = new \ArrayObject(array('' => 'App'));
     }
 }
