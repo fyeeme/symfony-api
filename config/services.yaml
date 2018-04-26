@@ -15,7 +15,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Service,Common}'
+        exclude: '../src/{Migrations,Tests,Service,Common}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -37,3 +37,7 @@ services:
         class: Codeages\Biz\Framework\Context\Biz
         arguments: ["%biz_config%"]
         public: true
+
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
