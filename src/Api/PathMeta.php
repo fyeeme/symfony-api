@@ -2,7 +2,6 @@
 
 namespace App\Api;
 
-
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -17,13 +16,13 @@ class PathMeta
     private $singleMap = array(
         'GET' => 'get',
         'PATCH' => 'update',
-        'DELETE' => 'remove',
+        'DELETE' => 'delete',
     );
 
     private $listMap = array(
         'GET' => 'search',
         'POST' => 'add',
-        'DELETE' => 'remove',
+        'DELETE' => 'delete',
     );
 
     public function getResourceClassName()
@@ -53,11 +52,20 @@ class PathMeta
         return $result;
     }
 
+    /**
+     * if not slug after res, then we parse the method as batch request or parse as single request
+     * @return mixed
+     */
     public function getResMethod()
     {
-        $isSingleMethod = ($this->resNames[0] == 'me' && count($this->resNames) - 1 == count($this->slugs)) || (count(
-                    $this->resNames
-                ) == count($this->slugs));
+        $resCount = count($this->resNames);
+        $slugCount = count($this->slugs);
+
+        //except the excluded res
+        if (in_array($this->resNames[0], PathParser::excludePathInfo())) {
+            $resCount -= 1;
+        }
+        $isSingleMethod = $resCount === $slugCount;
         if ($isSingleMethod) {
             return $this->singleMap[$this->httpMethod];
         } else {
@@ -95,7 +103,7 @@ class PathMeta
      */
     private function getResClass($namespace)
     {
-        $qualifiedResName = $this->convertToSingular($this->resNames[0]).'\\';
+        $qualifiedResName = $this->convertToSingular($this->resNames[0]) . '\\';
 
         foreach ($this->resNames as $index => $resName) {
             //do not add prefix to resource name
@@ -105,7 +113,7 @@ class PathMeta
             $qualifiedResName .= $this->convertToSingular($resName);
         }
 
-        return   $namespace.'\\Resource\\'.$qualifiedResName;
+        return $namespace . '\\Resource\\' . $qualifiedResName;
     }
 
     private function convertToSingular($string)

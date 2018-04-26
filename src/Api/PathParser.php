@@ -45,14 +45,9 @@ class PathParser
                 continue;
             }
 
-            if ($part == 'me') {
-                $pathMeta->addResName($part);
-                continue;
-            }
-
-            if ($part == 'app') {
-                $pathMeta->addResName($part);
-                continue;
+           if(in_array($part , static::excludePathInfo())){
+               $pathMeta->addResName($part);
+               continue;
             }
 
             if ($nextIsResName) {
@@ -63,5 +58,14 @@ class PathParser
                 $nextIsResName = 1;
             }
         }
+    }
+
+    /**
+     * 定义路由解析中需要特出处理的 res。
+     * @return array
+     */
+    public static function excludePathInfo()
+    {
+        return ['me', 'app'];
     }
 }
