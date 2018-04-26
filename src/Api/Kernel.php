@@ -85,7 +85,7 @@ class Kernel
             throw  new  BadRequestHttpException(sprintf(' method %s() not found in class %s ', $method, get_class($resource)));
         }
 
-        $params = array_merge([$request, $pathMeta->getSlugs()]);
+        $params = array_merge([$request], $pathMeta->getSlugs());
 
         try{
             $response =  call_user_func_array([$resource, $method], $params);
@@ -94,7 +94,7 @@ class Kernel
                 'body' => $response,
             );
         }catch (\Exception $e){
-            list($error, $httpCode) = $this->getErrorAndHttpCodeFromException($e, $this->biz['isDebug']);
+            list($error, $httpCode) = $this->getErrorAndHttpCodeFromException($e);
             $result[] = array(
                 'code' => $httpCode,
                 'body' => array('error' => $error),
@@ -105,7 +105,7 @@ class Kernel
     }
 
 
-    private  function getErrorAndHttpCodeFromException(\Exception $exception, $isDebug)
+    private  function getErrorAndHttpCodeFromException(\Exception $exception)
     {
         $error = array();
         if ($exception instanceof HttpExceptionInterface) {
@@ -118,7 +118,7 @@ class Kernel
             $httpCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
-        if ($isDebug) {
+        if ($this->biz['debug']) {
             $error['trace'] = ExceptionPrintingToolkit::printTraceAsArray($exception);
         }
 
