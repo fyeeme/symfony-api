@@ -6,7 +6,7 @@
  * Time: 19:24
  */
 
-namespace App\Service\User;
+namespace App\Service;
 
 
 interface UserService

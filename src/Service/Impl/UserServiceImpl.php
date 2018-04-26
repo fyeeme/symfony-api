@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\User\Impl;
+namespace App\Service\Impl;
 
 
 
-use App\Service\User\UserService;
+use App\Service\UserService;
 
 class UserServiceImpl implements UserService
 {
