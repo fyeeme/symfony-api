@@ -6,10 +6,10 @@
  * Time: 19:24
  */
 
-namespace App\Service;
+namespace App\Service\User;
 
 
 interface UserService
 {
-
+    public function getUser($id);
 }
