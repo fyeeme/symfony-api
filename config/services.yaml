@@ -37,7 +37,3 @@ services:
         class: Codeages\Biz\Framework\Context\Biz
         arguments: ["%biz_config%"]
         public: true
-
-    App\EventListener\RequestListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }

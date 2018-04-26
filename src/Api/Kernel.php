@@ -10,7 +10,6 @@ namespace App\Api;
 
 
 use App\Api\Exception\ErrorCode;
-use App\Api\Resource\Job\Job;
 use App\Common\ExceptionPrintingToolkit;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -34,10 +33,6 @@ class Kernel
     {
         $this->container = $container;
         $this->logger = $logger;
-        $this->logger->info(
-            'test container ',
-            $this->container->getParameter('db')
-        );
         $this->biz = $this->container->get('biz');
 
     }
