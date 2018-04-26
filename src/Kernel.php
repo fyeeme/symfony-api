@@ -84,6 +84,5 @@ class Kernel extends BaseKernel
     {
         $biz = $this->getContainer()->get('biz');
         $biz->register(new DoctrineServiceProvider());
-        $biz['isDebug'] = $this->isDebug();
     }
 }
