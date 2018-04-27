@@ -15,7 +15,7 @@ class PathMeta
 
     private $singleMap = array(
         'GET' => 'get',
-        'PATCH' => 'update',
+        'POST' => 'update',
         'DELETE' => 'delete',
     );
 
@@ -32,24 +32,6 @@ class PathMeta
         }
 
         return $this->getResClass(__NAMESPACE__);
-    }
-
-    public function fallbackToCustomApi($customApiNamespaces)
-    {
-        $result = array(
-            'isFind' => false,
-            'className' => '',
-        );
-        foreach ($customApiNamespaces as $namespace) {
-            $className = $this->getResClass($namespace);
-            if (class_exists($className)) {
-                $result['isFind'] = true;
-                $result['className'] = $className;
-                break;
-            }
-        }
-
-        return $result;
     }
 
     /**
