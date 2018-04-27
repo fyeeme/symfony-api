@@ -42,8 +42,9 @@ class EndPointController extends Controller
 
     }
 
+    //----------------仅供测试，稍后会删掉-----------------------
 
-    private function view()
+    protected function testView()
     {
         $number = mt_rand(0, 100);
 
@@ -55,16 +56,8 @@ class EndPointController extends Controller
         );
     }
 
-    /**
-     * @return Biz
-     */
-    private function getKernel()
-    {
-        return $this->get('biz');
-    }
 
-
-    private function demo()
+    protected function testService()
     {
         $this->getKernel()->service('UserService');
         $user = [
@@ -77,6 +70,30 @@ class EndPointController extends Controller
             'name' => 'required|integer',
             'password' => 'required|integer|length_between:2,10'
         ]);
+    }
+
+    protected function testRedis(){
+        $this->getKernel()->offsetGet('redis')->set('a', 2);
+
+        $this->getRedis()->expire('a', 10);
+        var_dump($this->getRedis()->get('a'));
+    }
+
+
+    /**
+     * @return Biz
+     */
+    private function getKernel()
+    {
+        return $this->get('biz');
+    }
+
+    /**
+     * @return \Redis
+     */
+    private function getRedis()
+    {
+        return $this->getKernel()->offsetGet('redis');
     }
 
 }
