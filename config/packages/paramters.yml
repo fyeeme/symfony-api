@@ -25,3 +25,12 @@ parameters:
              charset: utf8mb4
              collate: utf8mb4_unicode_ci
 
+    redis.default_options:
+        redis.host: '127.0.0.1'
+        redis.port: 6379
+        redis.timeout: 30
+        redis.persistent: true
+        redis.serializer.igbinary: false 
+        redis.serializer.php: false
+        redis.prefix: 'api_dev:'
+        redis.database: 1
