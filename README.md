@@ -1,6 +1,18 @@
 
-> 开发用的,可以删掉
-**  composer require server  
+## install
+
+1. setup program
+```bash
+cp .env.dist .env
+cp phinx.yml.dist phinx.yml
+composer install --ignore-platform-reqs
+```
+
+2. set nginx 
+
+```bash
+cp config/documents/nginx  /path/servers/api
+```
 
 ## TODO LIST
 
