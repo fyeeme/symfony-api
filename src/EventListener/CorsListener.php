@@ -28,7 +28,7 @@ class CorsListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $method = $request->getRealMethod();
-        if (Request::METHOD_OPTIONS == $method) {
+        if (Request::METHOD_OPTIONS === $method) {
             $response = new Response();
             $response->headers->set('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,DELETE');
             $response->headers->set('Access-Control-Allow-Headers', 'Range, X-Requested-With, Content-Type, x-session-id');
