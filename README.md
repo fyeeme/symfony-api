@@ -28,5 +28,10 @@ cp config/documents/nginx  /path/servers/api
     1. web login auth
     2. api auth
     
+[session link](https://symfony.com/doc/current/doctrine/pdo_session_storage.html)
+3. session
+    1. ~~support redis as cache client~~
+    2. ~~use redis as session handler~~
+    
 [test unit link](https://symfony.com/doc/current/best_practices/tests.html#unit-tests)
 3. test unit
