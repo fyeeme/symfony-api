@@ -37,3 +37,9 @@ services:
         class: Codeages\Biz\Framework\Context\Biz
         arguments: ["%biz_config%"]
         public: true
+
+    redisSessionHandler:
+        class: App\Security\RedisSessionHandler
+        arguments:
+            - '@biz'
+            - { prefix: 'sf4s:', expiretime: 86400 }

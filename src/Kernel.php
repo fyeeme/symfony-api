@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Codeages\Biz\Framework\Provider\DoctrineServiceProvider;
+use Codeages\Biz\Framework\Provider\RedisServiceProvider;
 
 class Kernel extends BaseKernel
 {
@@ -64,7 +65,6 @@ class Kernel extends BaseKernel
         }
         $loader->load($confDir . '/services' . self::CONFIG_EXITS, 'glob');
         $loader->load($confDir . '/services_' . $this->environment . self::CONFIG_EXITS, 'glob');
-
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -77,13 +77,13 @@ class Kernel extends BaseKernel
             $routes->import($confDir . '/routes/' . $this->environment . '/**/*' . self::CONFIG_EXITS, '/', 'glob');
         }
         $routes->import($confDir . '/routes' . self::CONFIG_EXITS, '/', 'glob');
-
     }
 
     protected function initializeKernel()
     {
         $biz = $this->getContainer()->get('biz');
         $biz->register(new DoctrineServiceProvider());
+        $biz->register(new RedisServiceProvider());
         $biz['autoload.aliases'] = new \ArrayObject(array('' => 'App'));
     }
 }

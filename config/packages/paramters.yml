@@ -10,6 +10,7 @@ parameters:
     biz_config:
         debug: "%kernel.debug%"
         db.options: "%biz_db_options%"
+        redis.options: "%redis.default_options%"
         root_directory: "%kernel.root_dir%/../"
         cache_directory: "%kernel.cache_dir%"
         log_directory: "%kernel.logs_dir%"
@@ -26,11 +27,23 @@ parameters:
              collate: utf8mb4_unicode_ci
 
     redis.default_options:
-        redis.host: '127.0.0.1'
-        redis.port: 6379
-        redis.timeout: 30
-        redis.persistent: true
-        redis.serializer.igbinary: false 
-        redis.serializer.php: false
-        redis.prefix: 'api_dev:'
-        redis.database: 1
+        host: '127.0.0.1:6379'
+        auth: ~
+        timeout: 30
+        reserved: ~
+        key_prefix: 'sf_api:'
+        retry_interval: 100
+        database: 6
+        pconnect: true
+        serializer_php: false
+        serializer_igbinary: false
+#
+#    'redis.host' => '127.0.0.1',
+#    'redis.port' => 6379,
+#
+#    'redis.timeout' => 30,
+#    'redis.persistent' => true,
+#    'redis.serializer.igbinary' => false, // use igBinary serialize/unserialize
+#    'redis.serializer.php' => false, // use built-in serialize/unserialize
+#    'redis.prefix' => 'api_dev:',
+#    'redis.database' => '1', //测试站和正式站不要共用一个数据库
