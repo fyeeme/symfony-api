@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: funny
- * Date: 20/03/2018
- * Time: 18:32
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Security;
-
 
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,17 +25,17 @@ class User implements UserInterface, EquatableInterface, \ArrayAccess, \Serializ
 
     public function getRoles()
     {
-        return $this->offsetGet('current_identity');
+        return $this->offsetGet('role');
     }
 
     public function getPassword()
     {
-        return $this->offsetGet('passwd');
+        return $this->offsetGet('password');
     }
 
     public function getSalt()
     {
-        return $this->offsetGet('salt');
+        return null;
     }
 
     public function getUsername()
@@ -47,7 +49,7 @@ class User implements UserInterface, EquatableInterface, \ArrayAccess, \Serializ
 
     public function isEqualTo(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof self) {
             return false;
         }
 
@@ -55,20 +57,21 @@ class User implements UserInterface, EquatableInterface, \ArrayAccess, \Serializ
             return false;
         }
 
-        if ($this->salt() !== $user->getSalt()) {
+        if ($this->getSalt() !== $user->getSalt()) {
             return false;
         }
 
         if ($this->getUsername() !== $user->getUsername()) {
             return false;
         }
+
         return true;
     }
-
 
     public function __set($name, $value)
     {
         $this->user[$name] = $value;
+
         return $this;
     }
 
@@ -119,6 +122,4 @@ class User implements UserInterface, EquatableInterface, \ArrayAccess, \Serializ
     {
         $this->user = unserialize($serialized);
     }
-
-
 }

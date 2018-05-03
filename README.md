@@ -35,3 +35,6 @@ cp config/documents/nginx  /path/servers/api
     
 [test unit link](https://symfony.com/doc/current/best_practices/tests.html#unit-tests)
 3. test unit
+
+4. vendor/symfony/security/Core
+    [configuration link ](https://symfony.com/doc/current/reference/configuration/security.html)

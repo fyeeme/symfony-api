@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Service;
+namespace App\Dao;
 
-interface UserService
-{
-    public function getUser($id);
+use Codeages\Biz\Framework\Dao\GeneralDaoInterface;
 
-    public function getUserByUsername($userName);
-}
+ interface UserDao  extends GeneralDaoInterface
+ {
+     public function getByUsername($userName);
+ }

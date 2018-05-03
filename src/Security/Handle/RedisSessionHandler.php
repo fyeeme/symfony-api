@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security;
+namespace App\Security\Handle;
 use Codeages\Biz\Framework\Context\Biz;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler;
 

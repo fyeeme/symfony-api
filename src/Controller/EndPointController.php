@@ -36,6 +36,7 @@ class EndPointController extends Controller
      */
     public function index(Request $request)
     {
+
         $response = $this->get('api.kernel')->handle($request);
 
         return new JsonResponse($response);

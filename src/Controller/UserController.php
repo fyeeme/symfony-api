@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: funny
- * Date: 2018/4/16
- * Time: 18:16
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace App\Controller;
@@ -15,27 +18,30 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends Controller
 {
-
     /**
-     * @Route("/login", name="login")
+     * @Route("/api/login", name="api_login")
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function login(Request $request)
     {
-        $callbackUrl = $request->getSchemeAndHttpHost() . "/login/callback/weixin";
+        $callbackUrl = $request->getSchemeAndHttpHost().'/login/callback/weixin';
 
         $oauthClient = $this->OAuthClient('weixin');
 
         $url = $oauthClient->getAuthorizeUrl($callbackUrl);
-       
+
         return $this->redirect($url);
     }
 
     /**
      * @Route("/login/callback/{type}", name="login_callback")
+     *
      * @param Request $request
      * @param $type
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function loginCallBack(Request $request, $type)
@@ -58,6 +64,7 @@ class UserController extends Controller
 
     /**
      * @param $type
+     *
      * @return OAuthClient
      */
     private function OAuthClient($type)

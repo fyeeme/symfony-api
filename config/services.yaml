@@ -39,7 +39,15 @@ services:
         public: true
 
     redisSessionHandler:
-        class: App\Security\RedisSessionHandler
+        class: App\Security\Handle\RedisSessionHandler
         arguments:
             - '@biz'
             - { prefix: 'sf4s:', expiretime: 86400 }
+    userProvider:
+        class: App\Security\UserProvider
+        arguments:
+             - '@biz'
+
+    App\EventListener\ExceptionListener:
+         tags:
+             - { name: kernel.event_listener, event: kernel.exception }

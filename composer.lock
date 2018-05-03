@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9e6a81176ec99da98c4981629d9df7d",
+    "content-hash": "0e2486da265f6389232cd7855d51e57b",
     "packages": [
         {
             "name": "ageglow/base-framework",
-            "version": "v0.0.2",
+            "version": "v0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ageglow/base-framework.git",
-                "reference": "9e0ef050e944339c5c81c66363d34ca2f7aabe75"
+                "reference": "cf51da141e03260b90ebd8f269da6fd19d0cb21b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/ageglow/base-framework/9e0ef050e944339c5c81c66363d34ca2f7aabe75.zip",
-                "reference": "9e0ef050e944339c5c81c66363d34ca2f7aabe75",
+                "url": "https://files.phpcomposer.com/files/ageglow/base-framework/cf51da141e03260b90ebd8f269da6fd19d0cb21b.zip",
+                "reference": "cf51da141e03260b90ebd8f269da6fd19d0cb21b",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "A Pure Light Weight PHP Service Layer Framework.",
-            "time": "2018-04-18T14:31:29+00:00"
+            "time": "2018-04-27T06:49:52+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2323,16 +2323,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.78",
+            "version": "v1.0.79",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "eead30b31db70691cd1fd1e7225190c818a1a5f6"
+                "reference": "399e72968d5baa698788e6116fe0f47f269724e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/symfony/flex/eead30b31db70691cd1fd1e7225190c818a1a5f6.zip",
-                "reference": "eead30b31db70691cd1fd1e7225190c818a1a5f6",
+                "url": "https://files.phpcomposer.com/files/symfony/flex/399e72968d5baa698788e6116fe0f47f269724e0.zip",
+                "reference": "399e72968d5baa698788e6116fe0f47f269724e0",
                 "shasum": ""
             },
             "require": {
@@ -2365,7 +2365,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-03-27T10:04:58+00:00"
+            "time": "2018-04-27T05:19:26+00:00"
         },
         {
             "name": "symfony/framework-bundle",

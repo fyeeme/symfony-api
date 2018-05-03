@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class ApiKeyUserProvider implements UserProviderInterface
+class UserProvider implements UserProviderInterface
 {
     private $biz;
 
@@ -27,14 +27,6 @@ class ApiKeyUserProvider implements UserProviderInterface
         $this->biz = $biz;
     }
 
-    public function getUsernameForApiKey($apiKey)
-    {
-        // Look up the username based on the token in the database, via
-        // an API call, or do something entirely different
-        $username = '';
-
-        return $username;
-    }
 
     public function loadUserByUsername($username)
     {
