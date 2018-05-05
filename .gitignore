@@ -6,3 +6,4 @@
 ###< symfony/framework-bundle ###
 .idea
 phinx.yml
+var/.php_cs.cache
