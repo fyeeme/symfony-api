@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Security\Handle;
+
 use Codeages\Biz\Framework\Context\Biz;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler;
-
 
 /**
  * Redis based session storage handler based on the Redis class
@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHand
  *
  * @author Drak <drak@zikula.org>
  */
-
 class RedisSessionHandler extends AbstractSessionHandler
 {
     private $biz;
@@ -36,14 +35,15 @@ class RedisSessionHandler extends AbstractSessionHandler
      *  * expiretime: The time to live in seconds.
      *
      * RedisSessionHandler constructor.
-     * @param Biz $biz
+     *
+     * @param Biz   $biz
      * @param array $options
      */
-    public function __construct(Biz $biz, array $options = array())
+    public function __construct(Biz $biz, array $options = [])
     {
         $this->biz = $biz;
 
-        if ($diff = array_diff(array_keys($options), array('prefix', 'expiretime'))) {
+        if ($diff = array_diff(array_keys($options), ['prefix', 'expiretime'])) {
             throw new \InvalidArgumentException(sprintf(
                 'The following options are not supported "%s"', implode(', ', $diff)
             ));
@@ -74,7 +74,7 @@ class RedisSessionHandler extends AbstractSessionHandler
      */
     public function updateTimestamp($sessionId, $data)
     {
-        $this->getRedis()->expire($this->prefix.$sessionId,  $this->ttl);
+        $this->getRedis()->expire($this->prefix.$sessionId, $this->ttl);
 
         return true;
     }
@@ -114,4 +114,3 @@ class RedisSessionHandler extends AbstractSessionHandler
         return $this->biz['redis'];
     }
 }
-

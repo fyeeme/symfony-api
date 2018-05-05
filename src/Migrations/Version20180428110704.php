@@ -24,15 +24,17 @@ class Version20180428110704 extends AbstractMigration
     public function up(Schema $schema)
     {
         $this->addSql("
-            CREATE TABLE `token` (
-                `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `username` VARCHAR(32) NOT NULL DEFAULT '',
-                `password` VARCHAR(255) NOT NULL DEFAULT '',
-                `email` VARCHAR(255) NOT NULL DEFAULT '',
-                `is_active` INT(11) NOT NULL DEFAULT '0' COMMENT '',
-                `role` INT(11) NOT NULL DEFAULT '0' COMMENT '',
-                PRIMARY KEY (`id`)
-            ) ENGINE=INNODB  DEFAULT CHARSET=utf8;
+           CREATE TABLE `user` (
+              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+              `username` varchar(32) NOT NULL DEFAULT '',
+              `password` varchar(255) NOT NULL DEFAULT '',
+              `email` varchar(255) NOT NULL DEFAULT '',
+              `is_active` int(11) NOT NULL DEFAULT '0',
+              `created_time` int(11) DEFAULT NULL,
+              `updated_time` int(11) DEFAULT NULL,
+              `role` varchar(32) DEFAULT NULL,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
         ");
     }
 

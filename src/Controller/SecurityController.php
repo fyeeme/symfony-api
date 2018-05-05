@@ -70,9 +70,7 @@ class SecurityController extends Controller
      */
     public function index(){
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        var_dump($this->getUser()->email);
-        return $this->render('base.html.twig');
+        return $this->render('base.html.twig',['user'=>$this->getUser()]);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 /**
- * https://symfony.com/doc/current/security/guard_authentication.html
+ * https://symfony.com/doc/current/security/guard_authentication.html.
  *
  * curl -H "X-AUTH-TOKEN: FAKE" http://localhost:8000/
  * # {"message":"Username could not be found."}
@@ -24,22 +23,23 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  # the homepage controller is executed: the page loads normally
  *
  * Class TokenAuthenticator
- * @package App\Security
  */
-class TokenAuthenticator extends  AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     /**
-     * Called when authentication is needed, but it's not sent
-     * @param Request $request
+     * Called when authentication is needed, but it's not sent.
+     *
+     * @param Request                      $request
      * @param AuthenticationException|null $authException
+     *
      * @return JsonResponse|Response
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        $data = array(
+        $data = [
             // you might translate this message
-            'message' => 'Authentication Required'
-        );
+            'message' => 'Authentication Required',
+        ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
@@ -50,6 +50,7 @@ class TokenAuthenticator extends  AbstractGuardAuthenticator
      * to be skipped.
      *
      * @param Request $request
+     *
      * @return bool
      */
     public function supports(Request $request)
@@ -60,14 +61,16 @@ class TokenAuthenticator extends  AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want to
      * be passed to getUser() as $credentials.
+     *
      * @param Request $request
+     *
      * @return array|mixed
      */
     public function getCredentials(Request $request)
     {
-        return array(
+        return [
             'token' => $request->headers->get('X-AUTH-TOKEN'),
-        );
+        ];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -102,25 +105,23 @@ class TokenAuthenticator extends  AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $data = array(
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+        $data = [
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
 
             // or to translate this message
             // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-        );
+        ];
 
         return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-       return null;
+        return null;
     }
 
     public function supportsRememberMe()
     {
-        return false;
+        return true;
     }
-
-
 }

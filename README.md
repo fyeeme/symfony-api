@@ -40,3 +40,6 @@ cp config/documents/nginx  /path/servers/api
 
 4. vendor/symfony/security/Core
     [configuration link ](https://symfony.com/doc/current/reference/configuration/security.html)
+    
+5. security
+    [security link](https://symfony.com/doc/current/security.html#roles)
