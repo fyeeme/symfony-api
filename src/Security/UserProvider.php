@@ -28,12 +28,18 @@ class UserProvider implements UserProviderInterface
     }
 
 
+    public function getUsernameForApiKey($apiKey)
+    {
+        // Look up the username based on the token in the database, via
+        // an API call, or do something entirely different
+        $username = $apiKey === 'REAL' ? 'admin' : '';
+
+        return $username;
+    }
+
+
     public function loadUserByUsername($username)
     {
-
-        if ($username instanceof User) {
-            return $username;
-        }
         $arrayUser = $this->getUserService()->getUserByUsername($username);
 
         if (empty($arrayUser)) {
@@ -52,7 +58,7 @@ class UserProvider implements UserProviderInterface
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
-       return  $this->loadUserByUsername($user);
+        return $this->loadUserByUsername($user->username);
     }
 
     public function supportsClass($class)

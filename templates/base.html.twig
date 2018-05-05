@@ -6,7 +6,12 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            {{ dump(user) }}
+            <a href="/logout"> logout</a>
+
+            <a href="/login"> login</a>
+        {% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>

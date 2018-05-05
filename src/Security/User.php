@@ -115,11 +115,21 @@ class User implements UserInterface, EquatableInterface, \ArrayAccess, \Serializ
 
     public function serialize()
     {
-        return serialize($this->user);
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+        ));
     }
 
     public function unserialize($serialized)
     {
-        $this->user = unserialize($serialized);
+        list(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

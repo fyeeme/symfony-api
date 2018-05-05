@@ -25,8 +25,10 @@ cp config/documents/nginx  /path/servers/api
     
 [security link](https://symfony.com/doc/current/security.html)
 2. auth 
-    1. web login auth
-    2. api auth
+    1. ~~web login auth~~
+    2. ~~token auth~~
+    3. ~~api auth~~
+    4. oauth
     
 [session link](https://symfony.com/doc/current/doctrine/pdo_session_storage.html)
 3. session
