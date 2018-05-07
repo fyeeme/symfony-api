@@ -14,52 +14,50 @@ namespace App\Controller;
 use App\Security\User;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
-
     /**
-     * @Route("/login", name="login")
-     * @param Request $request
-     * @param AuthenticationUtils $authenticationUtils
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/login", name="security_login")
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $helper): Response
     {
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
         return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
+            // last username entered by the user (if any)
+            'last_username' => $helper->getLastUsername(),
+            // last authentication error (if any)
+            'error' => $helper->getLastAuthenticationError(),
         ]);
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * This is the route the user can use to logout.
+     *
+     * But, this will never be executed. Symfony will intercept this first
+     * and handle the logout automatically. See logout in config/packages/security.yaml
+     *
+     * @Route("/logout", name="security_logout")
      */
-    public function logout(){
-
+    public function logout(): void
+    {
+        throw new \Exception('This should never be reached!');
     }
 
     /**
      * @Route("/register", name="register")
+     *
      * @param UserPasswordEncoderInterface $encoder
      */
     public function register(UserPasswordEncoderInterface $encoder)
     {
-       $user = $this->getUserService()->getUserByUsername('admin');
-        $user = new User( $user);
+        $user = $this->getUserService()->getUserByUsername('admin');
+        $user = new User($user);
         $plainPassword = 'admin';
-        $a =  $encoder->isPasswordValid($user,'admin');
+        $a = $encoder->isPasswordValid($user, 'admin');
         $encoded = $encoder->encodePassword($user, $plainPassword);
 
         var_dump($encoded, $a);
@@ -68,9 +66,9 @@ class SecurityController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function index(){
-
-        return $this->render('base.html.twig',['user'=>$this->getUser()]);
+    public function index()
+    {
+        return $this->render('base.html.twig', ['user' => $this->getUser()]);
     }
 
     /**

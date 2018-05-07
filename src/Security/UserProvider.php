@@ -27,16 +27,14 @@ class UserProvider implements UserProviderInterface
         $this->biz = $biz;
     }
 
-
     public function getUsernameForApiKey($apiKey)
     {
         // Look up the username based on the token in the database, via
         // an API call, or do something entirely different
-        $username = $apiKey === 'REAL' ? 'admin' : '';
+        $username = 'REAL' === $apiKey ? 'admin' : '';
 
         return $username;
     }
-
 
     public function loadUserByUsername($username)
     {
@@ -58,12 +56,13 @@ class UserProvider implements UserProviderInterface
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
+
         return $this->loadUserByUsername($user->username);
     }
 
     public function supportsClass($class)
     {
-        User::class === $class;
+        return User::class === $class;
     }
 
     /**

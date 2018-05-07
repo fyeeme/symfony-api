@@ -16,25 +16,33 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: ~
+            # this firewall applies to all URLs
+            pattern: ^/
+
+            # but the firewall does not require login on every page
+            # denying access is done in access_control or in your controllers
+            anonymous: true
+
             form_login:
-                login_path: login
-                check_path: login
-                failure_path_parameter: "/api/job2"
-                default_target_path: "/register"
+                login_path: security_login
+                check_path: security_login
+                default_target_path: register
+            
             guard:
                 authenticators:
                     - App\Security\TokenAuthenticator
+            
             remember_me:
-                secret:   '%kernel.secret%'
+                secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
-                path:     /
+                path: /
                 # by default, the feature is enabled by checking a
                 # checkbox in the login form (see below), uncomment the
                 # following line to always enable it.
-                # always_remember_me: true
+                always_remember_me: true
+            
             logout:
-                path:   /logout
+                path:  security_logout
                 target: /
 #            provider: userProvider
 
