@@ -16,4 +16,6 @@ interface UserService
     public function getUser($id);
 
     public function getUserByUsername($userName);
+
+    public function register($user);
 }

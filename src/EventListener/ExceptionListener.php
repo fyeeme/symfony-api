@@ -22,9 +22,11 @@ class ExceptionListener
         $exception = $event->getException();
 
         $message = sprintf(
-            'My Error says: %s with code: %s',
+            'My Error says: %s with code: %s, %s,%s',
             $exception->getMessage(),
-            $exception->getCode()
+            $exception->getCode(),
+            $exception->getFile(),
+            $exception->getLine()
         );
 
         // Customize your response object to display the exception details
@@ -41,7 +43,7 @@ class ExceptionListener
         }
 
         // sends the modified response object to the event
-        $event->setResponse($response);
+      //  $event->setResponse($response);
     }
 
 

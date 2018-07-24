@@ -122,6 +122,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supportsRememberMe()
     {
-        return true;
+        return false;
     }
 }

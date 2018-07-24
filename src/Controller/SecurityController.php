@@ -24,7 +24,7 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="security_login")
      */
-    public function login(AuthenticationUtils $helper): Response
+    public function login(AuthenticationUtils $helper,UserPasswordEncoderInterface $encoder): Response
     {
         return $this->render('security/login.html.twig', [
             // last username entered by the user (if any)
@@ -54,13 +54,17 @@ class SecurityController extends Controller
      */
     public function register(UserPasswordEncoderInterface $encoder)
     {
-        $user = $this->getUserService()->getUserByUsername('admin');
-        $user = new User($user);
-        $plainPassword = 'admin';
-        $a = $encoder->isPasswordValid($user, 'admin');
-        $encoded = $encoder->encodePassword($user, $plainPassword);
 
-        var_dump($encoded, $a);
+        $user =  $this->getUserService()->register(['username'=>'admin','password'=>'admin']);
+//        $user = $this->getUserService()->getUserByUsername('admin');
+//        $user = new User($user);
+//        $plainPassword = 'admin';
+//        $a = $encoder->isPasswordValid($user, 'admin');
+//        $encoded = $encoder->encodePassword($user, $plainPassword);
+//
+//        var_dump($encoded, $a);
+
+        return $this->json($user);
     }
 
     /**

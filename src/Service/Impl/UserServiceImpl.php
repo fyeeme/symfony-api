@@ -14,6 +14,7 @@ namespace App\Service\Impl;
 use App\Dao\UserDao;
 use App\Service\BaseService;
 use App\Service\UserService;
+use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 
 class UserServiceImpl extends BaseService implements UserService
 {
@@ -24,9 +25,18 @@ class UserServiceImpl extends BaseService implements UserService
 
     public function getUserByUsername($userName)
     {
-        return $this->getUserDao()->getByUsername($userName);
+        return  $this->getUserDao()->getByUsername($userName);
     }
 
+    public function register($user)
+    {
+        $hash = $this->getPasswordEncoder()->encodePassword($user['password'], '');
+
+        $user['password'] = $hash;
+        $user['email'] = 'liuy.allen@symfony.com';
+
+        return  $this->getUserDao()->create($user);
+    }
 
     /**
      * @return UserDao
@@ -34,5 +44,13 @@ class UserServiceImpl extends BaseService implements UserService
     public function getUserDao()
     {
         return $this->createDao('UserDao');
+    }
+
+    /**
+     * @return BCryptPasswordEncoder
+     */
+    private function getPasswordEncoder()
+    {
+        return  new BCryptPasswordEncoder(8);
     }
 }
